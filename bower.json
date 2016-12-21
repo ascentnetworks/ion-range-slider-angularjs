@@ -1,6 +1,6 @@
 {
   "name": "ion-range-slider-angularjs",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "homepage": "https://github.com/djKooks/ion-range-slider-angularjs.git",
   "original authors": [
     "Geoffrey Bauduin <bauduin.geo@gmail.com>"
@@ -24,6 +24,6 @@
     "tests"
   ],
   "dependencies": {
-    "ion.rangeslider": "~2.1.2"
+    "ion.rangeslider": "=2.1.2"
   }
 }
