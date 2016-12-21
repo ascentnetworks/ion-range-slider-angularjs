@@ -24,6 +24,6 @@
     "tests"
   ],
   "dependencies": {
-    "ion.rangeslider": "=2.1.2"
+    "ion.rangeslider": "=2.1.4"
   }
 }
