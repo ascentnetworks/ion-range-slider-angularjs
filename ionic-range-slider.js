@@ -27,6 +27,7 @@ angular.module("ion.rangeslider").directive("ionRangeSlider", [
                 from: "=",
                 to: "=",
                 disable: "=",
+                delayToFinish: "=",
                 onChange: "&",
                 onFinish: "&"
             },
@@ -48,17 +49,29 @@ angular.module("ion.rangeslider").directive("ionRangeSlider", [
                     from: scope.from,
                     to: scope.to,
                     disable: scope.disable,
+                    delayToFinish: scope.delayToFinish,
                     onChange: function (val) {
-
-                        scope.$apply(function () {
-                            scope.from = val.from;
-                            scope.to = val.to;
-                            scope.onChange && scope.onChange({
-                                val: val
+                        if (!scope.delayToFinish) {
+                            scope.$apply(function () {
+                                scope.from = val.from;
+                                scope.to = val.to;
+                                scope.onChange && scope.onChange({
+                                    val: val
+                                });
                             });
-                        });
+                        }
                     },
-                    onFinish: scope.onFinish
+                    onFinish: function (val) {
+                        if (scope.delayToFinish) {
+                            scope.$apply(function () {
+                                scope.from = val.from;
+                                scope.to = val.to;
+                                scope.onFinish && scope.onFinish({
+                                    val: val
+                                });
+                            });
+                        }
+                    }
                 });
 
                 var watchers = [];
@@ -75,7 +88,6 @@ angular.module("ion.rangeslider").directive("ionRangeSlider", [
                     });
                 }));
                 watchers.push(scope.$watch('from', function (value) {
-
                     if(slider.old_from != value) {
                         slider.update({
                             from: value
@@ -83,7 +95,6 @@ angular.module("ion.rangeslider").directive("ionRangeSlider", [
                     }
                 }));
                 watchers.push(scope.$watch('to', function (value) {
-
                     if(slider.old_to != value) {
                         slider.update({
                             to: value
@@ -98,6 +109,11 @@ angular.module("ion.rangeslider").directive("ionRangeSlider", [
                 watchers.push(scope.$watch('disable', function (value) {
                     element.data("ionRangeSlider").update({
                         disable: value
+                    });
+                }));
+                watchers.push(scope.$watch('delayToFinish', function (value) {
+                    element.data("ionRangeSlider").update({
+                        delayToFinish: value
                     });
                 }));
             }
